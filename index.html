@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Be My Valentine</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #ffe6f0;
+      font-family: Arial, sans-serif;
+    }
+
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+      width: 450px;
+      position: relative;
+
+    }
+
+    img {
+      width: 100%;
+      border-radius: 15px;
+    }
+
+    h1 {
+      margin: 10px 0;
+    }
+     h1 {
+  animation: pop 0.8s ease forwards;
+  opacity: 0;
+     }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    button {
+      padding: 12px 20px;
+      font-size: 24px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+    }
+
+    #yesBtn {
+      background: #ff4d8d;
+      color: white;
+    }
+
+    #noBtn {
+      background: #a8aac1;
+      #noBtn { transition: left 0.15s ease, top 0.15s ease; }
+    }
+
+.heart {
+  position: fixed;
+  top: -20px;
+  font-size: 24px;
+  animation: fall linear forwards;
+  pointer-events: none;
+}
+@keyframes pop {
+  to {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+    <h1>Will you be my Valentine? 💘</h1>
+    <img src="open.jpeg" alt="us">
+
+    <div class="buttons">
+      <button id="yesBtn">Yes</button>
+      <button id="noBtn">No</button>
+    </div>
+  </div>
+<script>
+  const yesBtn = document.getElementById("yesBtn");
+  const noBtn = document.getElementById("noBtn");
+  const card = document.querySelector(".card");
+
+  let scale = 1;
+  let noClicks = 0;
+
+  const noPhrases = [
+    "No",
+    "Are you sure? 🙃",
+    "Really?? 😳",
+    "Think again 😏",
+    "Don’t break my heart 💔",
+    "Last chance 😤",
+    "Okay… stop 😭",
+    "YOU MEAN YES 😈"
+  ];
+
+  function isOverlapping(rect1, rect2) {
+  return !(
+    rect1.right < rect2.left ||
+    rect1.left > rect2.right ||
+    rect1.bottom < rect2.top ||
+    rect1.top > rect2.bottom
+  );
+}
+
+  noBtn.addEventListener("click", () => {
+    noClicks++;
+    const phraseIndex = Math.min(noClicks, noPhrases.length - 1);
+    noBtn.textContent = noPhrases[phraseIndex];
+
+    // Увеличиваем Yes
+    scale += 0.3;
+    yesBtn.style.transform = `scale(${scale})`;
+    yesBtn.style.transition = "transform 0.2s ease";
+
+    // Получаем размеры карточки
+    const cardRect = card.getBoundingClientRect();
+
+    const maxX = cardRect.width - noBtn.offsetWidth;
+    const maxY = cardRect.height - noBtn.offsetHeight;
+
+    let tries = 0;
+let validPosition = false;
+
+while (!validPosition && tries < 50) {
+  const sideMargin = 50;   // слева/справа
+const topMargin = 0;     // можешь сделать 10–20 если хочешь
+const bottomMargin = 0;  // можешь сделать 10–20 если хочешь
+
+const cardRect = card.getBoundingClientRect();
+
+const availableWidth = cardRect.width - noBtn.offsetWidth - 2 * sideMargin;
+const availableHeight = cardRect.height - noBtn.offsetHeight - topMargin - bottomMargin;
+
+// защита, если кнопка большая или карточка узкая
+const safeW = Math.max(0, availableWidth);
+const safeH = Math.max(0, availableHeight);
+
+const x = sideMargin + Math.random() * safeW;
+const y = topMargin + Math.random() * safeH;
+
+noBtn.style.position = "absolute";
+noBtn.style.left = x + "px";
+noBtn.style.top = y + "px";
+
+  const noRect = noBtn.getBoundingClientRect();
+  const h1Rect = document.querySelector("h1").getBoundingClientRect();
+  const yesRect = yesBtn.getBoundingClientRect();
+
+  if (
+    !isOverlapping(noRect, h1Rect) &&
+    !isOverlapping(noRect, yesRect)
+  ) {
+    validPosition = true;
+  }
+
+  tries++;
+}
+
+
+    noBtn.style.position = "absolute";
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+  });
+
+  yesBtn.addEventListener("click", () => {
+    window.location.href = "yay.html";
+  });
+
+  function createHeart() {
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  heart.textContent = "❤️";
+
+  heart.style.left = Math.random() * window.innerWidth + "px";
+  heart.style.animationDuration = 8 + Math.random() * 4 + "s";
+
+  document.body.appendChild(heart);
+
+  setTimeout(() => {
+    heart.remove();
+  }, 5000);
+}
+
+// создаём сердечки каждые 300мс
+setInterval(createHeart, 300);
+
+</script>
+
+
+
+</body>
+</html>

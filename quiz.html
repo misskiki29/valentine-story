@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ru">
+<html lang="he" dir="rtl">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mini Quiz 💡</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f3f0ff;
+      font-family: Arial, sans-serif;
+      padding: 24px;
+    }
+    .card {
+      background: white;
+      width: min(520px, 92vw);
+      padding: 24px;
+      border-radius: 18px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+    }
+    h1 { margin: 0 0 12px; }
+    .q { margin: 16px 0; }
+    .q p { margin: 0 0 10px; font-weight: 700; }
+    label { display: block; margin: 8px 0; cursor: pointer; }
+    button {
+      border: none;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 16px;
+      cursor: pointer;
+      background: #5f3dc4;
+      color: white;
+      margin-top: 10px;
+    }
+    .result { margin-top: 12px; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Mini Quiz before Valentine 💘</h1>
+    <div id="quiz"></div>
+
+    <button id="checkBtn">Check answers</button>
+    <button id="startBtn" style="display:none;">Go to Valentine →</button>
+
+    <div id="result" class="result"></div>
+  </div>
+
+  <script>
+    // 1) ВОТ ТУТ ТЫ ПИШЕШЬ ВОПРОСЫ
+    // type: "mcq" = тест с вариантами
+    const questions = [
+  {
+  type: "mcq",
+  text: "אם אני הבאג, ואתה הדיבאגר — מה עושים?",
+  options: [
+    "מתעלמים ומקווים לטוב",
+    "מתקנים בעדינות ולא מאשימים",
+    "זורקים Exception",
+    "מכבים את המחשב"
+  ],
+  answerIndex: 1
+},
+{
+  type: "mcq",
+  text: "מה היינו קוראים לזוגיות שלנו ב-Git?",
+  options: [
+    "main",
+    "feature/love-story",
+    "hotfix/jealousy",
+    "detached HEAD 😭"
+  ],
+  answerIndex: 1
+},
+{
+  type: "mcq",
+  text: "אני ואתה כמו קוד טוב: חייבים…",
+  options: [
+    "קומנטים בכל שורה",
+    "תקשורת (communication) ותיעוד",
+    "לרוץ רק על Windows XP",
+    "להיות בלי tests"
+  ],
+  answerIndex: 1
+},
+{
+  type: "mcq",
+  text: "אם הלב שלי היה פונקציה, מה הפרמטר היחיד שלה?",
+  options: [
+    "money",
+    "you",
+    "coffee",
+    "undefined"
+  ],
+  answerIndex: 1
+},
+{
+  type: "mcq",
+  text: "מה הדבר הכי חשוב בזוגיות — כמו בתכנות?",
+  options: [
+    "לעשות copy-paste מהאינטרנט",
+    "לבדוק קצה-מקרים (edge cases)",
+    "לא לעשות commit אף פעם",
+    "לריב עם ה-compiler"
+  ],
+  answerIndex: 1
+},
+{
+  type: "mcq",
+  text: "האהבה שלנו היא כמו אלגוריתם טוב: היא…",
+  options: [
+    "O(n^2) ומכאיבה",
+    "O(1) — תמיד זמינה",
+    "לא עוצרת אף פעם (infinite loop)",
+    "מוחקת את עצמה (self-destruct)"
+  ],
+  answerIndex: 1
+}
+];
+
+
+    const quizEl = document.getElementById("quiz");
+    const resultEl = document.getElementById("result");
+    const checkBtn = document.getElementById("checkBtn");
+    const startBtn = document.getElementById("startBtn");
+
+    function render() {
+      quizEl.innerHTML = questions.map((q, i) => {
+        const opts = q.options.map((opt, j) => `
+          <label>
+            <input type="radio" name="q${i}" value="${j}">
+            ${opt}
+          </label>
+        `).join("");
+
+        return `<div class="q">
+          <p>${i + 1}) ${q.text}</p>
+          ${opts}
+        </div>`;
+      }).join("");
+    }
+
+    function getSelectedIndex(i) {
+      const chosen = document.querySelector(`input[name="q${i}"]:checked`);
+      return chosen ? Number(chosen.value) : null;
+    }
+
+    checkBtn.addEventListener("click", () => {
+      let correct = 0;
+
+      questions.forEach((q, i) => {
+        const selected = getSelectedIndex(i);
+        if (selected === q.answerIndex) correct += 1;
+      });
+
+      resultEl.textContent = `Score: ${correct}/${questions.length}`;
+
+      // можешь сделать условие "проходной балл"
+      if (correct >= 0) {
+        startBtn.style.display = "inline-block";
+        resultEl.textContent += " ✅ You passed!";
+      } else {
+        startBtn.style.display = "none";
+        resultEl.textContent += " ❌ Try again!";
+      }
+    });
+
+    startBtn.addEventListener("click", () => {
+      window.location.href = "index.html";
+    });
+
+    render();
+  </script>
+</body>
+</html>

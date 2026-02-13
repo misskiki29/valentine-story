@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yaaaaay!</title>
+  <style>
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background: #ff4d8d;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      gap: 18px;
+      padding: 24px;
+    }
+    img {
+      width: min(420px, 90vw);
+      border-radius: 20px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    }
+    h1 { margin: 0; font-size: 36px; }
+    h1 {
+  animation: pop 0.8s ease forwards;
+  opacity: 0;
+}
+
+@keyframes pop {
+  to {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+  </style>
+</head>
+<body>
+  <img src="dance.gif" alt="happy dance" />
+  <h1>Yaaaaay! I am so excited! 💃🕺</h1>
+</body>
+</html>
